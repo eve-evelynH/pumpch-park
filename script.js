@@ -18,7 +18,18 @@ let selectedChar=state.profile?.character || 'pig';
 let setupUsernameDraft='';
 let calendarCursor=new Date();
 let bookView='characters';
-let battleTransient={victory:false,skill:'',pendingSkill:null};
+let battleTransient={victory:false,skill:'',pendingSkill:null,attacking:false};
+const spritePreloads=new Map();
+function preloadSprite(url){
+ if(!spritePreloads.has(url)){
+  const image=new Image();
+  const ready=new Promise(resolve=>{image.onload=()=>resolve(true);image.onerror=()=>resolve(false)});
+  image.src=url;
+  spritePreloads.set(url, image.complete && image.naturalWidth>0 ? Promise.resolve(true) : ready);
+ }
+ return spritePreloads.get(url);
+}
+function preloadMonsterStates(key){for(const phase of [1,2,3])preloadSprite(`assets/monsters/${key}_${phase}.png`)}
 
 function defaultState(){return {profile:null,workouts:{},daily:{},validDates:[],unlockedChars:[],discovered:[],currentMonster:null}}
 function loadState(){try{return Object.assign(defaultState(),JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}'))}catch(e){return defaultState()}}
@@ -51,7 +62,7 @@ function renderSetup(){
 function renderLoading(){app.innerHTML=`<section class="screen loading-screen"><div class="loading-track"><img id="runner" class="loading-runner" src="assets/logo/loading.png"></div></section>`;app.querySelector('#runner').addEventListener('animationend',()=>{screen='dashboard';render()})}
 function todayDaily(){return state.daily[ymd()]||null}
 function dashCta(){const d=todayDaily();if(!d||!d.completed)return '開始今日訓練';if(d.attacksLeft>0&&!d.hasBattled)return '進入 Battle!';return '今日已健打'}
-function renderDashboard(){const c=CHARS[state.profile.character];const m=state.currentMonster;const cta=dashCta();app.innerHTML=`<section class="screen dashboard"><img class="dash-logo" src="assets/logo/pumpchPark_logo.png"><img class="dash-slogan" src="assets/logo/loading_short.png">${m?`<div class="monster-mini-wrap"><img class="monster-fire" src="assets/ui/fire.png"><img class="monster-mini" src="assets/monsters/${m.key}_1.png"></div><div class="dash-monster-label">Lv${m.lv}. ${m.name}</div>`:''}<div class="dash-icons"><button class="dash-icon tap" data-go="calendar"><img src="assets/ui/calendar.png" width="75"></button><button class="dash-icon tap" data-go="monthly"><img src="assets/ui/dumbbell.png" width="75"></button><button class="dash-icon tap" data-go="book"><img src="assets/ui/book.png" width="75"></button></div><div class="dash-char-name" style="background-image:url('${c.buttonL}')">${escapeHtml(state.profile.username)}${c.name}</div><img class="dash-char" src="${c.img}">${cta==='今日已健打'?'<div class="main-cta completed-cta">今日已健打</div>':`<button id="mainCta" class="main-cta tap">${cta}</button>`}</section>`;app.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));if(app.querySelector('#mainCta'))app.querySelector('#mainCta').onclick=()=>{const d=todayDaily();if(!d||!d.completed)return go('workout');if(d.attacksLeft>0&&!d.hasBattled)return go('battle');}}
+function renderDashboard(){if(state.currentMonster && state.currentMonster.hp<=0){state.currentMonster=null;save()}const c=CHARS[state.profile.character];const m=state.currentMonster;const cta=dashCta();app.innerHTML=`<section class="screen dashboard"><img class="dash-logo" src="assets/logo/pumpchPark_logo.png"><img class="dash-slogan" src="assets/logo/loading_short.png">${m?`<div class="monster-mini-wrap"><img class="monster-fire" src="assets/ui/fire.png"><img class="monster-mini" src="assets/monsters/${m.key}_1.png"></div><div class="dash-monster-label">Lv${m.lv}. ${m.name}</div>`:''}<div class="dash-icons"><button class="dash-icon tap" data-go="calendar"><img src="assets/ui/calendar.png" width="75"></button><button class="dash-icon tap" data-go="monthly"><img src="assets/ui/dumbbell.png" width="75"></button><button class="dash-icon tap" data-go="book"><img src="assets/ui/book.png" width="75"></button></div><div class="dash-char-name" style="background-image:url('${c.buttonL}')">${escapeHtml(state.profile.username)}${c.name}</div><img class="dash-char" src="${c.img}">${cta==='今日已健打'?'<div class="main-cta completed-cta">今日已健打</div>':`<button id="mainCta" class="main-cta tap">${cta}</button>`}</section>`;app.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));if(app.querySelector('#mainCta'))app.querySelector('#mainCta').onclick=()=>{const d=todayDaily();if(!d||!d.completed)return go('workout');if(d.attacksLeft>0&&!d.hasBattled)return go('battle');}}
 function renderCalendar(){
  const y=calendarCursor.getFullYear(),m=calendarCursor.getMonth();
  const first=new Date(y,m,1),last=new Date(y,m+1,0);
@@ -93,7 +104,7 @@ function completeTraining(){const date=ymd(),list=state.workouts[date]||[];const
 function updateCharUnlocks(){const n=state.validDates.length;const order=['pig','worm','ghost'];if(n>=10){const second=order.find(x=>!state.unlockedChars.includes(x));if(second)state.unlockedChars.push(second)}if(n>=30){order.forEach(x=>{if(!state.unlockedChars.includes(x))state.unlockedChars.push(x)})}}
 function renderSettlement(){const d=todayDaily();app.innerHTML=`<section class="screen modal-screen"><div class="settlement"><h2>熱量健打結算</h2><p>獲得可攻擊次數：</p><div class="attack-count">${d?.attackCount||0}次</div><button id="enter" class="tap">${(d?.attackCount||0)>0?'進入 Battle!':'回到公園'}</button></div></section>`;app.querySelector('#enter').onclick=()=>{if((d?.attackCount||0)>0){ensureMonster();go('battle')}else go('dashboard')}}
 function weightedMonster(){let pool=MONSTERS.filter(m=>m.lv<10||state.validDates.length>=30);let total=pool.reduce((a,m)=>a+m.weight,0),r=Math.random()*total;for(const m of pool){r-=m.weight;if(r<=0)return m}return pool[0]}
-function ensureMonster(){if(state.currentMonster)return;const m=weightedMonster();state.currentMonster={key:m.key,lv:m.lv,name:m.name,maxHp:m.lv+1,hp:m.lv+1};if(!state.discovered.includes(m.key))state.discovered.push(m.key);save()}
+function ensureMonster(){if(state.currentMonster?.hp<=0){state.currentMonster=null;save()}if(state.currentMonster){preloadMonsterStates(state.currentMonster.key);return;}const m=weightedMonster();state.currentMonster={key:m.key,lv:m.lv,name:m.name,maxHp:m.lv+1,hp:m.lv+1};if(!state.discovered.includes(m.key))state.discovered.push(m.key);preloadMonsterStates(m.key);save()}
 function chooseSkill(){const c=CHARS[state.profile.character],d=todayDaily();if((d?.inactivityDays||0)>=SKILL_RULES.inactivityDays && Math.random()<SKILL_RULES.emptyChance)return {name:c.empty,damage:0,type:'empty'};if(state.validDates.length>=SKILL_RULES.ultimateUnlockValidDays&&Math.random()<SKILL_RULES.ultimateChance)return {name:c.ultimate,damage:1,type:'ultimate'};return {name:c.normal[Math.floor(Math.random()*c.normal.length)],damage:1,type:'normal'}}
 function renderBattle(){
  ensureMonster();const m=state.currentMonster,d=todayDaily();if(!m||!d)return go('dashboard');
@@ -101,8 +112,41 @@ function renderBattle(){
  if(!battleTransient.victory&&d.attacksLeft>0&&!battleTransient.pendingSkill)battleTransient.pendingSkill=chooseSkill();
  const actionLabel=battleTransient.victory?(d.attacksLeft>0?'下一隻怪物':'回到公園'):(d.attacksLeft>0?(battleTransient.pendingSkill?.name||'攻擊！'):'回到公園');
  app.innerHTML=`<section class="screen battle-screen"><img class="battle-title-img" src="assets/logo/battle.png"><div class="nameplate"><img class="nameplate-base" src="assets/ui/name.png"><div class="nameplate-fill" style="width:${ratio*100}%"><img src="assets/ui/name.png"></div><div class="monster-name">Lv${m.lv}. ${m.name}</div></div><img class="battle-fire" src="assets/ui/fire.png"><img id="monster" class="battle-monster" src="assets/monsters/${m.key}_${battleTransient.victory?3:1}.png">${battleTransient.victory?'<img class="victory-img" src="assets/logo/victory.png">':''}<div class="remaining">剩餘次數：${d.attacksLeft}次</div><button id="attack" class="battle-action tap">${escapeHtml(actionLabel)}</button><div id="toast" class="toast"></div></section>`;
- app.querySelector('#attack').onclick=()=>{if(battleTransient.victory){battleTransient={victory:false,skill:'',pendingSkill:null};if(d.attacksLeft>0){state.currentMonster=null;ensureMonster();renderBattle()}else{d.hasBattled=true;save();go('dashboard')};return}if(d.attacksLeft<=0){d.hasBattled=true;save();go('dashboard');return}performAttack()};
+ app.querySelector('#attack').onclick=()=>{if(battleTransient.attacking)return;if(battleTransient.victory){battleTransient={victory:false,skill:'',pendingSkill:null,attacking:false};state.currentMonster=null;save();if(d.attacksLeft>0){ensureMonster();renderBattle()}else{d.hasBattled=true;save();go('dashboard')};return}if(d.attacksLeft<=0){d.hasBattled=true;save();go('dashboard');return}performAttack()};
 }
-function performAttack(){const d=todayDaily(),m=state.currentMonster;if(!d||!m)return;const skill=battleTransient.pendingSkill||chooseSkill();battleTransient.pendingSkill=null;d.attacksLeft=Math.max(0,d.attacksLeft-1);battleTransient.skill=skill.name;const img=app.querySelector('#monster');img.src=`assets/monsters/${m.key}_2.png`;img.classList.add('hit');if(skill.damage>0)m.hp=Math.max(0,m.hp-skill.damage);save();setTimeout(()=>{if(m.hp<=0){img.src=`assets/monsters/${m.key}_3.png`;battleTransient.victory=true;battleTransient.pendingSkill=null;save();renderBattle()}else{img.src=`assets/monsters/${m.key}_1.png`;img.classList.remove('hit');if(d.attacksLeft<=0){d.hasBattled=true;save()}battleTransient.pendingSkill=d.attacksLeft>0?chooseSkill():null;renderBattle()}},420)}
+async function performAttack(){
+ const d=todayDaily(),m=state.currentMonster;
+ if(!d||!m||battleTransient.attacking||battleTransient.victory||d.attacksLeft<=0)return;
+ battleTransient.attacking=true;
+ const button=app.querySelector('#attack');if(button)button.disabled=true;
+ const skill=battleTransient.pendingSkill||chooseSkill();battleTransient.pendingSkill=null;
+ d.attacksLeft=Math.max(0,d.attacksLeft-1);
+ battleTransient.skill=skill.name;
+ if(skill.damage>0)m.hp=Math.max(0,m.hp-skill.damage);
+ save();
+ const img=app.querySelector('#monster');
+ const hurtSrc=`assets/monsters/${m.key}_2.png`;
+ // Ensure the hurt sprite is decoded before starting the visible hit window.
+ await preloadSprite(hurtSrc);
+ if(screen!=='battle'||state.currentMonster!==m){battleTransient.attacking=false;return}
+ img.src=hurtSrc;
+ img.classList.add('hit');
+ const newHpRatio=Math.max(0,m.hp/m.maxHp);
+ const nameFill=app.querySelector('.nameplate-fill');if(nameFill)nameFill.style.width=`${newHpRatio*100}%`;
+ const remaining=app.querySelector('.remaining');if(remaining)remaining.textContent=`剩餘次數：${d.attacksLeft}次`;
+ await new Promise(resolve=>setTimeout(resolve,750));
+ if(screen!=='battle'||state.currentMonster!==m){battleTransient.attacking=false;return}
+ if(m.hp<=0){
+  await preloadSprite(`assets/monsters/${m.key}_3.png`);
+  battleTransient.victory=true;
+  battleTransient.pendingSkill=null;
+ }else{
+  battleTransient.pendingSkill=d.attacksLeft>0?chooseSkill():null;
+  if(d.attacksLeft<=0)d.hasBattled=true;
+ }
+ battleTransient.attacking=false;
+ save();renderBattle();
+}
+
 render();
 })();
