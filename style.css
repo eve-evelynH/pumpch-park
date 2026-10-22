@@ -1,3 +1,67 @@
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#121212;color:#2d1a0e;font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif}button,input,select{font:inherit}.app-shell{width:min(100%,393px);min-height:100dvh;margin:0 auto;position:relative;overflow:hidden;background:#fff;box-shadow:0 0 35px rgba(0,0,0,.45)}.screen{min-height:100dvh;position:relative;overflow:hidden}.tap{cursor:pointer;-webkit-tap-highlight-color:transparent}.hidden{display:none!important}.pixel-text{font-weight:800;letter-spacing:.04em;text-shadow:1px 1px 0 rgba(255,255,255,.3)}
+/* common parchment pages */
+.paper-screen{background:#d6a85d url('assets/backgrounds/paper_bg.png') center/cover no-repeat;padding:34px 28px 28px}.paper-header{padding-top:18px;margin-bottom:14px}.paper-title{font-size:28px;font-weight:800;margin:0}.paper-subtitle{font-size:20px;font-weight:800;margin:4px 0 0}.back-btn{appearance:none;border:0;background:transparent;font-size:28px;color:#4d2f16;padding:0 8px 0 0;vertical-align:middle}.rule{height:1px;background:rgba(72,42,17,.35);margin:14px 0}.empty-state{display:grid;place-items:center;min-height:440px;text-align:center;color:#6a4a29;font-weight:700}
+/* setup */
+.setup{background:#faf7e8;padding:26px 24px}.setup-logo{display:block;width:92%;max-width:340px;margin:0 auto 12px}.username-box{position:relative;width:100%;height:116px;margin:0 auto 8px;background:url('assets/ui/input.png') center/100% 100% no-repeat}.username-box label{position:absolute;left:0;right:0;top:23px;text-align:center;font-weight:800}.username-box input{position:absolute;left:36px;right:36px;bottom:18px;height:38px;border:0;background:transparent;text-align:center;font-size:17px;outline:0;color:#4a2b18}.choose-copy{text-align:center;font-weight:800;font-size:18px;margin:8px 0 14px}.character-carousel{display:grid;grid-template-columns:74px 1fr 74px;align-items:center;gap:8px}.side-char{width:74px;height:74px;object-fit:contain;opacity:.72;filter:saturate(.85);transition:.2s}.side-char:active{transform:scale(.96)}.selected-char{text-align:center}.selected-char img{width:136px;height:136px;object-fit:contain;display:block;margin:auto}.char-confirm{width:174px;height:58px;border:0;background-position:center;background-size:100% 100%;background-repeat:no-repeat;color:#3b2113;font-size:18px;font-weight:900;margin-top:8px}.setup-note{text-align:center;font-size:12px;color:#7c6955;margin-top:8px}
+/* loading */
+.loading-screen{background:#f4efda}.loading-track{position:absolute;top:50%;left:0;width:100%;height:180px;transform:translateY(-50%);overflow:hidden}.loading-runner{position:absolute;width:822px;max-width:none;height:auto;left:-850px;top:50%;transform:translateY(-50%);animation:runAcross .5s linear 2}@keyframes runAcross{from{left:-850px}to{left:410px}}
+/* dashboard */
+.dashboard{background:#7cca3d url('assets/backgrounds/dashboard_bg.jpg') center/cover no-repeat}.dash-logo{position:absolute;top:22px;left:14px;width:164px}.dash-slogan{position:absolute;top:46px;right:20px;width:133px}.monster-mini-wrap{position:absolute;left:20px;top:120px;width:145px;height:200px}.monster-fire{position:absolute;width:136px;left:0;top:0}.monster-mini{position:absolute;width:101px;height:101px;object-fit:contain;left:17px;bottom:0}.dash-icons{position:absolute;left:30px;bottom:188px;display:grid;gap:10px}.dash-icon{width:75px;height:75px;object-fit:contain;border:0;background:transparent;padding:0}.dash-char{position:absolute;right:28px;bottom:206px;width:135px;height:135px;object-fit:contain}.dash-char-name{position:absolute;right:28px;bottom:336px;width:196px;height:46px;background-size:100% 100%;background-repeat:no-repeat;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;padding-left:28px}.main-cta{position:absolute;left:13px;right:13px;bottom:30px;height:69px;border:0;background:url('assets/buttons/start_btn.png') center/100% 100% no-repeat;font-size:22px;font-weight:900;color:#3c250f}.dash-monster-label{position:absolute;left:18px;top:318px;width:150px;text-align:center;font-weight:900;font-size:12px;color:#402511;text-shadow:0 1px #fff6}.status-chip{position:absolute;top:15px;right:15px;background:rgba(255,248,211,.85);border:2px solid #704319;border-radius:12px;padding:5px 9px;font-size:11px;font-weight:800}
+/* calendar */
+.calendar-head{display:flex;align-items:center;justify-content:space-between;margin:8px 12px 6px}.month-nav{border:0;background:transparent;color:#4a2d14;font-size:26px;padding:8px}.month-label{font-size:25px;font-weight:900;letter-spacing:.02em}.weekdays,.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr)}.weekdays div{text-align:center;font-size:12px;font-weight:800;padding:10px 0;color:#6a4927}.day-cell{height:70px;border-top:1px solid rgba(77,46,20,.25);display:grid;place-items:center;position:relative;font-weight:700}.day-cell.muted{opacity:.25}.day-cell.today span{background:#7f4e21;color:#fff;border-radius:50%;width:32px;height:32px;display:grid;place-items:center}.day-cell.has-workout::after{content:"";position:absolute;bottom:10px;width:6px;height:6px;border-radius:50%;background:#c84c2c}.day-cell button{border:0;background:transparent;width:100%;height:100%;color:inherit}.date-detail-list{max-height:560px;overflow:auto}.workout-row{padding:10px 3px;border-bottom:1px solid rgba(78,45,18,.26)}.workout-row strong{display:block;font-size:14px}.workout-row small{display:block;margin-top:5px;color:#745538}
+/* monthly */.monthly-copy{margin-top:110px;text-align:center;font-weight:800;color:#76552e}
+/* book */
+.book-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px 14px;margin-top:22px;max-height:610px;overflow:auto;padding-bottom:20px}.book-card{text-align:center;min-height:132px}.book-img-wrap{width:91px;height:91px;margin:auto;position:relative}.book-img{width:91px;height:91px;object-fit:contain}.book-card.locked .book-img{filter:brightness(0);opacity:.94}.lock-label{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:900;text-shadow:1px 1px 2px #000}.book-name{font-size:12px;font-weight:800;margin-top:5px;min-height:32px}.book-card.locked .book-name{font-size:15px}
+/* workout */
+.today-list{max-height:435px;overflow:auto;margin-top:4px}.add-link{border:0;background:transparent;color:#4c2e15;font-weight:800;padding:10px 0;text-align:left}.workout-footer{position:absolute;left:13px;right:13px;bottom:30px}.footer-btn{width:100%;height:69px;border:0;background:url('assets/buttons/attack_btn.png') center/100% 100% no-repeat;font-size:21px;font-weight:900;color:#fff3dd}.footer-btn.yellow{background-image:url('assets/buttons/start_btn.png');color:#40260e}.modal-screen{background:#d6a85d url('assets/backgrounds/paper_bg.png') center/cover no-repeat;padding:40px 28px}.add-popup{position:relative;width:338px;max-width:100%;height:550px;margin:56px auto 0;background:url('assets/ui/popup_L.png') center/100% 100% no-repeat;padding:96px 38px 28px}.popup-heading{position:absolute;top:32px;left:0;right:0;text-align:center;font-size:18px;font-weight:900}.field{margin:0 0 14px}.field label{display:block;font-size:14px;font-weight:800;margin-bottom:6px}.field select,.field input{width:100%;height:42px;border:2px solid #70431d;border-radius:7px;background:#fff3bd;color:#4a2b17;padding:0 11px;outline:none}.modal-done{width:100%;height:51px;border:0;background:url('assets/buttons/start_btn.png') center/100% 100% no-repeat;font-size:18px;font-weight:900;color:#3c250f;margin-top:5px}.settlement{position:relative;width:338px;height:450px;margin:130px auto 0;background:url('assets/ui/popup.png') center/100% 100% no-repeat;text-align:center;padding-top:62px}.settlement h2{font-size:18px}.settlement p{font-size:20px;margin-top:78px;font-weight:800}.attack-count{font-size:48px;font-weight:900;margin:28px 0 45px}.settlement button{width:273px;height:51px;border:0;background:url('assets/buttons/start_btn.png') center/100% 100% no-repeat;font-weight:900;font-size:18px;color:#40250e}
+/* battle */
+.battle-screen{background:#653d24 url('assets/backgrounds/battle_bg.png') center/cover no-repeat}.battle-title-img{position:absolute;top:30px;left:72px;width:249px}.nameplate{position:absolute;top:108px;left:62px;width:270px;height:90px;background:url('assets/ui/name.png') center/100% 100% no-repeat;overflow:hidden}.hp-fill{position:absolute;left:12px;top:17px;bottom:17px;width:calc(100% - 24px);background:linear-gradient(#ff745e,#df332b 65%,#ad1b18);border-radius:12px;transform-origin:left center;transition:transform .28s ease;opacity:.86}.nameplate::after{content:"";position:absolute;inset:0;background:url('assets/ui/name.png') center/100% 100% no-repeat;pointer-events:none}.monster-name{position:absolute;inset:0;display:grid;place-items:center;font-weight:900;color:#fff5d5;text-shadow:2px 2px #4d210d;z-index:2}.battle-fire{position:absolute;top:179px;left:188px;width:136px}.battle-monster{position:absolute;top:229px;left:68px;width:243px;height:243px;object-fit:contain;transition:transform .12s}.battle-monster.hit{transform:translateX(-7px) rotate(-2deg)}.remaining{position:absolute;bottom:154px;left:0;right:0;text-align:center;color:#fff2d4;font-size:17px;font-weight:900;text-shadow:2px 2px #5b2f15}.battle-action{position:absolute;left:13px;right:13px;bottom:60px;height:69px;border:0;background:url('assets/buttons/attack_btn.png') center/100% 100% no-repeat;color:#fff5e8;font-size:21px;font-weight:900;text-shadow:1px 2px #6a1d10}.victory-img{position:absolute;top:136px;left:47px;width:298px;z-index:5;pointer-events:none}.battle-note{position:absolute;left:0;right:0;bottom:132px;text-align:center;font-size:12px;color:#ffe4b5;font-weight:700}.toast{position:absolute;left:50%;top:48%;transform:translate(-50%,-50%);background:rgba(40,21,9,.88);color:#fff8dc;border:2px solid #f0b441;border-radius:10px;padding:10px 16px;font-weight:800;z-index:10;opacity:0;pointer-events:none;transition:.2s}.toast.show{opacity:1}
+@media (min-width:600px){body{padding:18px 0}.app-shell{min-height:852px;height:852px}.screen{min-height:852px;height:852px}}
+
+
+/* v3 interaction / Figma flow overrides */
+.calendar-screen{background:#d6a85d url('assets/backgrounds/calendar_bg.png') center/cover no-repeat;position:relative;padding:0 28px 109px;color:#4b2f18}
+.figma-calendar-head{position:absolute;top:76px;left:28px;right:28px;margin:0;height:44px}
+.calendar-content{position:absolute;top:150px;left:28px;width:337px}
+.calendar-screen .weekdays{height:27px;border-bottom:1px solid rgba(77,46,20,.42)}
+.calendar-screen .weekdays div{padding:6px 0 0;font-size:12px}
+.calendar-screen .calendar-grid{grid-auto-rows:80px}
+.calendar-screen .day-cell{height:80px;border-top:0;border-bottom:1px solid rgba(77,46,20,.32);font-size:24px}
+.calendar-screen .day-cell.today span{width:36px;height:36px}
+.second-level-footer{position:absolute;left:13px;right:13px;bottom:30px}
+.second-level-footer .footer-btn{width:100%}
+.second-level-paper{padding-bottom:118px}
+.overview-head{margin-top:62px}
+.center-section-title{text-align:center;font-size:20px;margin:4px 0 8px;font-weight:900}
+.book-topline{display:grid;grid-template-columns:48px 1fr 48px;align-items:center;margin:61px 12px 0;text-align:center}
+.book-switch{border:0;background:transparent;font-size:26px;color:#4a2d14;padding:8px}
+.book-switch.ghost-switch{visibility:hidden}
+.character-book-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:35px}
+.character-book-grid .book-card{min-height:132px}
+.nameplate{background:none}
+.nameplate-base{position:absolute;inset:0;width:270px;height:90px;object-fit:fill;filter:grayscale(1) brightness(.62);opacity:.66}
+.nameplate-fill{position:absolute;left:0;top:0;height:90px;overflow:hidden;transition:width .28s ease}
+.nameplate-fill img{display:block;width:270px;height:90px;max-width:none;object-fit:fill}
+.nameplate::after{display:none}
+.hp-fill{display:none}
+.battle-note{display:none}
+
+
+/* PUMPCH PARK phase 1 / Figma v4 */
+/* Preserve the Figma image geometry instead of CSS cover cropping. */
+.app-shell { background: #fff; }
+.setup { background: #fff; }
+.setup .char-confirm {background-color:transparent; box-shadow:none; appearance:none;}
+.loading-screen{background:#fff;}
+.loading-runner{animation:runAcross 1s linear 1 both;}
+.dashboard{background-size:100% 100%;background-position:center center;}
+.paper-screen,.modal-screen{background-size:122.14% 100%;background-position:center center;}
+.battle-screen{background-size:122.14% 100%;background-position:center center;}
+.calendar-screen{background-size:151.14% 104.46%;background-position:center center;}
+/* True centered name and footer, without the default padding shift. */
+.dash-char-name{padding:0 10px; text-align:center;}
+.main-cta{display:flex;align-items:center;justify-content:center;text-align:center;padding:0;background-color:transparent;}
+.completed-cta{background:none!important;color:#fff;font-weight:900;text-shadow:2px 2px 0 #513316;pointer-events:none;}
 .dash-monster-label{text-align:center;}
 /* Fixed footer stays independent from the scrollable image gallery. */
 .book-screen{height:100dvh;min-height:0;display:flex;flex-direction:column;overflow:hidden;}
@@ -30,24 +94,173 @@
 .book-screen .book-topline { margin-top: 61px; }
 .book-screen .book-rule { margin-top: 11px; }
 
-/* Phase 1 verified-position patch – use local component coordinates, not page coordinates. */
-/* Figma desktop artboard is 393x852 with browser chrome; interactive viewport omits chrome. */
-/* Dashboard navigation sits clear of the monster; retain icon sizes & order. */
-.dashboard .dash-icons {top:auto;bottom:123px;left:30px;gap:7px;z-index:3;}
-.dashboard .dash-icon {display:grid;place-items:center;width:75px;height:75px;}
-.dashboard .dash-icon img {display:block;width:75px;height:75px;max-width:100%;}
-/* First-use input text and decoration belong to one responsive component. */
-.setup .username-box {display:grid;grid-template-rows:40% 60%;align-items:center;justify-items:center;padding:0;margin-inline:auto;}
-.setup .username-box label {position:static;display:block;text-align:center;font-size:16px;font-weight:400;line-height:1.35;color:#fff;margin:0;}
-.setup .username-box input {position:static;display:block;width:calc(100% - 72px);height:38px;border:0;min-width:0;margin:0;text-align:center;font-size:17px;}
-/* Both popups anchor their contents to their own image-backed rectangles. */
-.modal-screen {display:flex;flex-direction:column;align-items:center;padding:0 16px;}
-.modal-screen .add-popup {flex-shrink:0;margin:63px auto 24px;width:min(338px,100%);padding:96px 38px 28px;}
-.modal-screen .popup-heading {top:38px;left:0;right:0;margin:0;height:24px;line-height:24px;font-size:16px;font-weight:400;color:#fff;}
-.modal-screen .settlement {flex-shrink:0;width:min(338px,100%);height:450px;margin:113px auto 24px;padding:0;position:relative;}
-.modal-screen .settlement h2 {position:absolute;top:38px;left:0;right:0;margin:0;height:24px;line-height:24px;font-size:16px;font-weight:400;color:#fff;}
-.modal-screen .settlement p {position:absolute;top:148px;left:0;right:0;margin:0;font-size:20px;font-weight:700;line-height:30px;color:#260504;}
-.modal-screen .settlement .attack-count {position:absolute;top:228px;left:0;right:0;margin:0;font-size:32px;font-weight:900;line-height:47px;color:#260504;}
-.modal-screen .settlement button {position:absolute;top:342px;left:50%;transform:translateX(-50%);width:min(273px,calc(100% - 44px));height:51px;margin:0;border:0;background-color:transparent;color:#fff;font-size:20px;font-weight:700;display:flex;align-items:center;justify-content:center;text-shadow:none;}
-.modal-screen .field select {background-position:right 13px center;}
-@media(max-height:640px) and (max-width:599px){.modal-screen {overflow-y:auto;}}
+
+/* === Phase 1 — scoped visual fixes after v4 (2026-10-22) ===
+   Keep the original .app-shell / .screen layout.  All coordinates in popups
+   below are RELATIVE to the popup artwork, not to the page or device. */
+
+/* Dashboard: Figma icon stack sits below the monster and above the CTA. */
+.dashboard .dash-icons {
+  left: 30px;
+  top: auto;
+  bottom: 123px;
+  gap: 7px;
+  z-index: 2;
+}
+.dashboard .dash-icon {
+  display: block;
+  width: 75px;
+  height: 75px;
+  padding: 0;
+}
+.dashboard .dash-icon img {
+  display: block;
+  width: 75px;
+  height: 75px;
+  object-fit: contain;
+}
+
+/* Setup: input and decoration retain one shared .username-box parent.
+   Do not convert the entire screen to an independently sized grid. */
+.setup .username-box {
+  position: relative;
+  width: 100%;
+  max-width: 345px;
+  height: 116px;
+  margin-inline: auto;
+}
+.setup .username-box label {
+  position: absolute;
+  top: 23px;
+  left: 0;
+  right: 0;
+  margin: 0;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  color: #ffffff;
+}
+.setup .username-box input {
+  position: absolute;
+  left: 36px;
+  right: 36px;
+  bottom: 18px;
+  width: calc(100% - 72px);
+  height: 38px;
+  margin: 0;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 700;
+  color: #53280e;
+}
+.setup .choose-copy {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 400;
+}
+.setup .setup-note { color: #b1b1b1; }
+
+/* Figma popup_L: 338 x 550. Place the artwork and its content in
+   the same position: the popup's margin moves the entire component. */
+.modal-screen {
+  padding: 0 16px;
+}
+.modal-screen .add-popup {
+  position: relative;
+  width: min(338px, 100%);
+  max-width: 100%;
+  height: 550px;
+  margin: 63px auto 0;
+  padding: 96px 38px 28px;
+}
+.modal-screen .add-popup .popup-heading {
+  position: absolute;
+  top: 38px;
+  left: 0;
+  right: 0;
+  height: 24px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1;
+  color: #ffffff;
+}
+.modal-screen .field select {
+  background-position: right 13px center;
+}
+
+/* Figma popup: 338 x 450.  Header, count and button follow its artwork. */
+.modal-screen .settlement {
+  position: relative;
+  width: min(338px, 100%);
+  max-width: 100%;
+  height: 450px;
+  margin: 113px auto 0;
+  padding: 0;
+}
+.modal-screen .settlement h2 {
+  position: absolute;
+  top: 38px;
+  left: 0;
+  right: 0;
+  height: 24px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1;
+  color: #ffffff;
+}
+.modal-screen .settlement p {
+  position: absolute;
+  top: 148px;
+  left: 0;
+  right: 0;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 30px;
+  color: #260504;
+}
+.modal-screen .settlement .attack-count {
+  position: absolute;
+  top: 228px;
+  left: 0;
+  right: 0;
+  margin: 0;
+  font-size: 32px;
+  font-weight: 900;
+  line-height: 47px;
+  color: #260504;
+}
+.modal-screen .settlement button {
+  position: absolute;
+  top: 342px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(273px, calc(100% - 44px));
+  height: 51px;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  text-shadow: none;
+}
+
+/* Small phones: keep popup width within the Web App without stretching
+   any screen to the width of a desktop browser. */
+@media (max-width: 375px) {
+  .modal-screen .add-popup { padding-left: 30px; padding-right: 30px; }
+}
