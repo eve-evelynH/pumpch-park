@@ -213,3 +213,28 @@ html, body { width:100%; max-width:100%; overflow-x:hidden; }
   font-weight:700;
   text-shadow:none;
 }
+
+
+/* ============================================================
+   Dashboard alignment patch — preserve the working v4 app canvas
+   Bottom of character aligns with bottom of the icon group.
+   Gap between character and the bottom CTA / completed text: 15px.
+   Other screens and all UI elements remain unchanged.
+   ============================================================ */
+.dashboard {
+  --dashboard-footer-bottom: 30px;
+  --dashboard-footer-height: 69px;
+  --dashboard-character-gap: 15px;
+  --dashboard-object-bottom: calc(var(--dashboard-footer-bottom) + var(--dashboard-footer-height) + var(--dashboard-character-gap));
+}
+.dashboard .dash-char {
+  bottom: var(--dashboard-object-bottom);
+}
+.dashboard .dash-char-name {
+  /* Keep the original v4 name-label-to-character relationship (130px offset). */
+  bottom: calc(var(--dashboard-object-bottom) + 130px);
+}
+.dashboard .dash-icons {
+  top: auto;
+  bottom: var(--dashboard-object-bottom);
+}
