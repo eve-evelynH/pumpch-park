@@ -95,172 +95,121 @@
 .book-screen .book-rule { margin-top: 11px; }
 
 
-/* === Phase 1 — scoped visual fixes after v4 (2026-10-22) ===
-   Keep the original .app-shell / .screen layout.  All coordinates in popups
-   below are RELATIVE to the popup artwork, not to the page or device. */
+/* ===========================================================
+   Phase 1 v4 SAFE PATCH — 2026-10-22
+   Source: working v4 colorfix, NOT v5. Retain all original layouts.
+   =========================================================== */
+/* Preserve app-shell size in desktop browsers. */
+html, body { width:100%; max-width:100%; overflow-x:hidden; }
+.app-shell { width:100%; max-width:393px; margin-left:auto; margin-right:auto; }
+.screen { width:100%; max-width:100%; }
 
-/* Dashboard: Figma icon stack sits below the monster and above the CTA. */
+/* Dashboard navigation: same 75px artwork, nudged downward.
+   Icons stay inside the App and cannot overlap the upper monster. */
 .dashboard .dash-icons {
-  left: 30px;
-  top: auto;
-  bottom: 123px;
-  gap: 7px;
-  z-index: 2;
+  top:auto;
+  bottom:123px;
+  left:30px;
+  gap:7px;
+  z-index:3;
 }
-.dashboard .dash-icon {
-  display: block;
-  width: 75px;
-  height: 75px;
-  padding: 0;
-}
-.dashboard .dash-icon img {
-  display: block;
-  width: 75px;
-  height: 75px;
-  object-fit: contain;
-}
+.dashboard .dash-icon { width:75px; height:75px; display:grid; place-items:center; }
+.dashboard .dash-icon img { display:block; width:75px; height:75px; }
 
-/* Setup: input and decoration retain one shared .username-box parent.
-   Do not convert the entire screen to an independently sized grid. */
-.setup .username-box {
-  position: relative;
-  width: 100%;
-  max-width: 345px;
-  height: 116px;
-  margin-inline: auto;
-}
+/* Setup label/input remain tied to the existing image-backed box.
+   Avoid replacing its layout with a page-level grid. */
+.setup .username-box { position:relative; width:100%; max-width:100%; }
 .setup .username-box label {
-  position: absolute;
-  top: 23px;
-  left: 0;
-  right: 0;
-  margin: 0;
-  text-align: center;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 22px;
-  color: #ffffff;
+  position:absolute;
+  left:0; right:0;
+  top:20%;
+  margin:0;
+  font-size:16px;
+  line-height:1.35;
+  font-weight:400;
+  text-align:center;
+  color:#FFFFFF;
 }
 .setup .username-box input {
-  position: absolute;
-  left: 36px;
-  right: 36px;
-  bottom: 18px;
-  width: calc(100% - 72px);
-  height: 38px;
-  margin: 0;
-  text-align: center;
-  font-size: 17px;
-  font-weight: 700;
-  color: #53280e;
-}
-.setup .choose-copy {
-  color: #ffffff;
-  font-size: 20px;
-  font-weight: 400;
-}
-.setup .setup-note { color: #b1b1b1; }
-
-/* Figma popup_L: 338 x 550. Place the artwork and its content in
-   the same position: the popup's margin moves the entire component. */
-.modal-screen {
-  padding: 0 16px;
-}
-.modal-screen .add-popup {
-  position: relative;
-  width: min(338px, 100%);
-  max-width: 100%;
-  height: 550px;
-  margin: 63px auto 0;
-  padding: 96px 38px 28px;
-}
-.modal-screen .add-popup .popup-heading {
-  position: absolute;
-  top: 38px;
-  left: 0;
-  right: 0;
-  height: 24px;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1;
-  color: #ffffff;
-}
-.modal-screen .field select {
-  background-position: right 13px center;
+  position:absolute;
+  left:10%; right:10%;
+  width:80%;
+  bottom:15%;
+  min-width:0;
+  height:38px;
+  margin:0;
+  text-align:center;
 }
 
-/* Figma popup: 338 x 450.  Header, count and button follow its artwork. */
-.modal-screen .settlement {
-  position: relative;
-  width: min(338px, 100%);
-  max-width: 100%;
-  height: 450px;
-  margin: 113px auto 0;
-  padding: 0;
-}
-.modal-screen .settlement h2 {
-  position: absolute;
-  top: 38px;
-  left: 0;
-  right: 0;
-  height: 24px;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1;
-  color: #ffffff;
-}
-.modal-screen .settlement p {
-  position: absolute;
-  top: 148px;
-  left: 0;
-  right: 0;
-  margin: 0;
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 30px;
-  color: #260504;
-}
-.modal-screen .settlement .attack-count {
-  position: absolute;
-  top: 228px;
-  left: 0;
-  right: 0;
-  margin: 0;
-  font-size: 32px;
-  font-weight: 900;
-  line-height: 47px;
-  color: #260504;
-}
-.modal-screen .settlement button {
-  position: absolute;
-  top: 342px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(273px, calc(100% - 44px));
-  height: 51px;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: transparent;
-  color: #ffffff;
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 1;
-  text-shadow: none;
+/* Popup titles are anchored to their respective popup artwork,
+   not the viewport or the surrounding screen. */
+.add-popup { position:relative; }
+.add-popup .popup-heading {
+  position:absolute;
+  top:38px;
+  left:0; right:0;
+  height:24px;
+  margin:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:16px;
+  line-height:24px;
+  font-weight:400;
+  color:#FFFFFF;
 }
 
-/* Small phones: keep popup width within the Web App without stretching
-   any screen to the width of a desktop browser. */
-@media (max-width: 375px) {
-  .modal-screen .add-popup { padding-left: 30px; padding-right: 30px; }
+/* Settlement remains centered via its existing v4 geometry.
+   Its children use popup-local coordinates from the Figma layer. */
+.settlement { position:relative; padding-top:0; }
+.settlement h2 {
+  position:absolute;
+  top:38px;
+  left:0; right:0;
+  margin:0;
+  height:24px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:16px;
+  line-height:24px;
+  font-weight:400;
+  color:#FFFFFF;
+}
+.settlement p {
+  position:absolute;
+  top:148px;
+  left:0; right:0;
+  margin:0;
+  font-size:20px;
+  line-height:30px;
+  font-weight:700;
+  color:#260504;
+}
+.settlement .attack-count {
+  position:absolute;
+  top:228px;
+  left:0; right:0;
+  margin:0;
+  font-size:32px;
+  line-height:47px;
+  font-weight:900;
+  color:#260504;
+}
+.settlement button {
+  position:absolute;
+  top:342px;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(273px,calc(100% - 36px));
+  height:51px;
+  margin:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background-color:transparent;
+  color:#FFFFFF;
+  font-size:20px;
+  font-weight:700;
+  text-shadow:none;
 }
